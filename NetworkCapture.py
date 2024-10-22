@@ -23,14 +23,22 @@ def start_monitor_mode():
     print(f"Monitor mode started on {wireless_adapter_name}")
     return wireless_adapter_name
 
-#There is a bug in this one it will get to the first print line but will not run the subprocess to start the network scan
 def capture_network(wireless_adapter_name):
-    print("Starting network capture...")
-    subprocess.run(['sudo','airodump-ng', wireless_adapter_name], capture_output=True, text=True)
+    process = subprocess.Popen(['airodump-ng', wireless_adapter_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) 
+    print("Starting network scan... (Press Ctrl+C to stop)")
 
-#Capturing the scan data to a file
-def crack_captured_data():
-    capture_file = input("Please enter the name of the capture file (e.g., capture_data.cap): ")
-    subprocess.run(['aircrack-ng', '-w', capture_file], capture_output=True, text=True)
-    print('Attempting to crack captured data')
+    try:
+        for line in iter(process.stdout.readline, b''):  # Use iter to read lines until empty
+            output = line.decode('utf-8')
+            print(output.strip())
+
+    except KeyboardInterrupt:
+        print("\nStopping network scan...")
+        process.kill()
+
+    finally:
+        process.wait()
+
+
+
 
