@@ -1,5 +1,6 @@
 import subprocess
 import time
+import os
 
 # Running airmon-ng via subprocess and starting monitor mode
 
@@ -21,7 +22,9 @@ def start_monitor_mode():
     wireless_adapter_name = input("Please enter your wireless adapter name here: ")
     subprocess.run(['airmon-ng', 'start', wireless_adapter_name], capture_output=True, text=True)
     print(f"Monitor mode started on {wireless_adapter_name}")
+    os.environ['WIRELESS_ADAPTER_NAME'] = wireless_adapter_name
     return wireless_adapter_name
+    
 
 def capture_network(wireless_adapter_name):
     process = subprocess.Popen(['airodump-ng', '-w', 'network_capture', '--output-format','csv', wireless_adapter_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) 
@@ -38,11 +41,6 @@ def capture_network(wireless_adapter_name):
 
     finally:
         process.wait()
-
-#Still need to test this one. A bug is that the airodump-ng when it restarts it appends a -0n at the end of the file 
-def clean_network_capture():
-    subprocess.Popen(['sort', 'network_capture-01.csv', '|','uniq', '>','cleaned_network_output.csv'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    print("Cleaning completed please visit the code directory for output!")
 
 
 
