@@ -24,13 +24,13 @@ def start_monitor_mode():
     return wireless_adapter_name
 
 def capture_network(wireless_adapter_name):
-    process = subprocess.Popen(['airodump-ng', wireless_adapter_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) 
+    process = subprocess.Popen(['airodump-ng', '-w', 'network_capture', '--output-format','csv', wireless_adapter_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) 
     print("Starting network scan... (Press Ctrl+C to stop)")
 
     try:
-        for line in iter(process.stdout.readline, b''):  # Use iter to read lines until empty
-            output = line.decode('utf-8')
-            print(output.strip())
+            for line in iter(process.stdout.readline, b''):
+                output = line.decode('utf-8')
+                print(output.strip())
 
     except KeyboardInterrupt:
         print("\nStopping network scan...")
@@ -38,6 +38,11 @@ def capture_network(wireless_adapter_name):
 
     finally:
         process.wait()
+
+#Still need to test this one. A bug is that the airodump-ng when it restarts it appends a -0n at the end of the file 
+def clean_network_capture():
+    subprocess.Popen(['sort', 'network_capture-01.csv', '|','uniq', '>','cleaned_network_output.csv'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    print("Cleaning completed please visit the code directory for output!")
 
 
 

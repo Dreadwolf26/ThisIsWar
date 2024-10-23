@@ -14,3 +14,4 @@ if __name__ == "__main__":
     adapter_name = start_monitor_mode()
     time.sleep(2)
     capture_network(adapter_name)
+    clean_network_capture()
