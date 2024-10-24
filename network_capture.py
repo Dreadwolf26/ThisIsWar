@@ -24,10 +24,12 @@ def start_monitor_mode():
     print(f"Monitor mode started on {wireless_adapter_name}")
     os.environ['WIRELESS_ADAPTER_NAME'] = wireless_adapter_name
     return wireless_adapter_name
-    
 
-def capture_network(wireless_adapter_name):
-    process = subprocess.Popen(['airodump-ng', '-w', 'network_capture', '--output-format','csv', wireless_adapter_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) 
+#captures Network information and GPS coordinates must have a GPS device installed.
+def capture_network_and_locate(wireless_adapter_name):
+    channel_name = input("Please enter the wireless channel you would like to target: ")
+    subprocess.run(['iwconfig', wireless_adapter_name,channel_name], capture_output=True, text=True)
+    process = subprocess.Popen(['airodump-ng', '-w', 'network_capture', '--gpsd','--output-format','csv', wireless_adapter_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) 
     print("Starting network scan... (Press Ctrl+C to stop)")
 
     try:
@@ -41,7 +43,6 @@ def capture_network(wireless_adapter_name):
 
     finally:
         process.wait()
-
 
 
 
