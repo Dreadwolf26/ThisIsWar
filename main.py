@@ -1,4 +1,4 @@
-from network_capture import scan_adapters, start_monitor_mode, capture_network
+from network_capture import scan_adapters, start_monitor_mode, capture_network_and_locate
 from deauth import *
 import os
 import sys
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     adapter_name = start_monitor_mode()
     if adapter_name:
         time.sleep(2)
-        capture_network(adapter_name)
+        capture_network_and_locate(adapter_name)
 
         target_mac = input("Enter the target MAC address: ")
         deauthorization(target_mac, adapter_name)
