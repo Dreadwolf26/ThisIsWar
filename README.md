@@ -2,7 +2,7 @@
 
 ### **About This Project**
 
-ThisIsWar is a set of scripts that automate **wardriving** and **Wi-Fi penetration testing** tasks. It helps with network monitoring, changing MAC addresses, deauthenticating devices, and capturing WPA/WPA2 handshakes. It’s built for **educational purposes** to help users learn about network security, ethical hacking, and wardriving techniques.
+ThisIsWar is a set of scripts that automate **wardriving** and **Wi-Fi penetration testing** tasks. It helps with network monitoring, changing MAC addresses, deauthenticating devices, and capturing WPA/WPA2 handshakes. It’s built for **educational purposes** to help users learn about network security, ethical hacking, and wardriving techniques. I did not include the handshake cracking logic you will need to figure that on your own. I take no liability for the use of these files.
 
 ### **What is Wardriving?**
 
